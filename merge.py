@@ -40,4 +40,4 @@ summary_data = pd.merge(summary_data, transaction_exists, on='accnt_id', how='ou
 merged_data = pd.merge(summary_data, users_data, on='accnt_id', how='outer')
 
 # Сохранение в CSV
-merged_data.to_csv(DATA_DIR + 'merged.csv', index=False, encoding=encoding)
+merged_data.to_csv(DATA_DIR + 'merged.csv', sep=';', index=False, encoding=encoding)
