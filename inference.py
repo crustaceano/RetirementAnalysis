@@ -41,7 +41,7 @@ def inference_without_merging(users_info_path, result_path):
 
 
 # inference('train_data/cntrbtrs_clnts_ops_trn.csv', 'train_data/trnsctns_ops_trn.csv', 'result/res.csv')
-inference_without_merging('train_data/cntrbtrs_clnts_ops_trn.csv', 'result/res.csv')
+# inference_without_merging('train_data/cntrbtrs_clnts_ops_trn.csv', 'result/res.csv')
 
 
 
