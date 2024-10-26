@@ -3,13 +3,20 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc
 import matplotlib.pyplot as plt
+
+from clear import clear
+from merge import *
 import seaborn as sns
 from preprocess import *
 from catboost import CatBoostClassifier
 import shap
 
 # Подготовка данных
-data_train = preprocess(data_train)
+data_train = merge('train_data/cntrbtrs_clnts_ops_trn.csv', 'train_data/trnsctns_ops_trn.csv', 'data/merged_train.csv')
+
+data_train = clear(data_train)
+
+data_train = preprocess(data_train)[1]
 
 
 X, y = data_train.drop(columns=['erly_pnsn_flg']), data_train['erly_pnsn_flg']

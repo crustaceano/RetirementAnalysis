@@ -39,3 +39,4 @@ def merge(USERS_INFO_PATH, TRANSACTIONS_INFO_PATH, result_path):
 
     # Сохранение в CSV
     merged_data.to_csv(result_path, sep=';', index=False, encoding=encoding)
+    return merged_data

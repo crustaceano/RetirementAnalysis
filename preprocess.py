@@ -5,7 +5,7 @@ from config import *
 
 
 TRAIN_DATA_PATH = DATA_DIR + '/' + 'clear_train.csv'
-data_train = pd.read_csv(TRAIN_DATA_PATH, sep=',', encoding='utf-8')
+# data_train = pd.read_csv(TRAIN_DATA_PATH, sep=',', encoding='utf-8')
 
 def scale_data(data, num_features):
     # Попробуем загрузить сохраненный скейлер

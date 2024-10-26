@@ -22,7 +22,7 @@ def inference(users_info_path, transactions_info_path, result_path):
     result_df = pd.concat([data_ids[['accnt_id']].reset_index(drop=True), predictions_df], axis=1)
     result_df.to_csv(result_path, index=False)
 
-inference('train_data/cntrbtrs_clnts_ops_trn.csv', 'train_data/trnsctns_ops_trn.csv', 'result/res.csv')
+# inference('train_data/cntrbtrs_clnts_ops_trn.csv', 'train_data/trnsctns_ops_trn.csv', 'result/res.csv')
 
 
 
