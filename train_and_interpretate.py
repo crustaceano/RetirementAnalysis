@@ -1,34 +1,39 @@
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc
 import matplotlib.pyplot as plt
 import seaborn as sns
-from preprocess import data_train
+from preprocess import *
+from catboost import CatBoostClassifier
+import shap
 
 # Подготовка данных
+data_train = preprocess(data_train)
+
+
 X, y = data_train.drop(columns=['erly_pnsn_flg']), data_train['erly_pnsn_flg']
-X = X.drop(columns=['accnt_status', 'phn', 'email', 'cprtn_prd_d', 'prsnt_age'])
 X_columns = X.columns
 
 # Разделение данных на обучающую и тестовую выборки
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
 
-# Сохранение данных в CSV (закомментировано для примера)
-# X_train.to_csv('data/X_train.csv', index=False)
-# X_test.to_csv('data/X_test.csv', index=False)
-# y_train.to_csv('data/y_train.csv', index=False)
-# y_test.to_csv('data/y_test.csv', index=False)
+# Инициализация модели
+model = CatBoostClassifier(
+    iterations=1000,      # количество итераций
+    learning_rate=0.05,    # скорость обучения
+    depth=10,              # глубина деревьев
+    random_seed=42,       # фиксированный seed для воспроизводимости
+    auto_class_weights="Balanced",  # автоматическая балансировка классов
+    verbose=100           # вывод информации каждые 100 итераций
+)
 
-# Инициализация и обучение модели логистической регрессии
-model = LogisticRegression(class_weight={0: 1, 1: 10}, random_state=42, max_iter=250)
-model.fit(X_train, y_train)
-
-# Предсказание на тестовой выборке
+# Обучение модели
+model.fit(X_train, y_train, eval_set=(X_test, y_test), early_stopping_rounds=100)
+model.save_model('model/catboost_model.cbm')
+# Предсказание и оценка
 y_pred = model.predict(X_test)
 
-# Оценка модели
 print("Accuracy:", accuracy_score(y_test, y_pred))
 print("Precision:", precision_score(y_test, y_pred))
 print("Recall:", recall_score(y_test, y_pred))
@@ -49,16 +54,26 @@ plt.legend(loc='lower right')
 plt.grid()
 plt.show()
 
-# Визуализация коэффициентов модели
-coefficients = model.coef_[0]
-coef_df = pd.DataFrame({'Feature': X_columns, 'Coefficient': coefficients})
-coef_df['Exp_Coefficient'] = np.exp(coefficients)  # Экспоненциальные коэффициенты для интерпретации
-coef_df = coef_df.sort_values(by='Coefficient', ascending=False)
+# SHAP анализ
+# Инициализация объекта для расчета SHAP-значений
+explainer = shap.TreeExplainer(model)
 
+# Вычисление SHAP-значений для тестового набора
+shap_values = explainer.shap_values(X_test)
+
+# Отобразим важность признаков
 plt.figure(figsize=(10, 6))
-sns.barplot(x='Coefficient', y='Feature', data=coef_df[:10])
-plt.title('Top 10 Logistic Regression Coefficients')
-plt.xlabel('Coefficient Value')
-plt.ylabel('Features')
-plt.axvline(0, color='red', linestyle='--')  # Линия для нуля
+shap.summary_plot(shap_values, X_test, plot_type="bar")
+plt.title("SHAP Feature Importance")
 plt.show()
+
+# Визуализация SHAP значений для первых 10 примеров
+shap.initjs()
+shap.plots.force(explainer.expected_value, shap_values[:10], X_test[:10])
+
+# Визуализация зависимостей SHAP значений для наиболее важных признаков
+# for feature in X.columns[:5]:  # Выберите 5 наиболее важных признаков
+#     plt.figure(figsize=(10, 6))
+#     shap.dependence_plot(feature, shap_values, X_test)
+#     plt.title(f'SHAP Dependence Plot for {feature}')
+#     plt.show()
