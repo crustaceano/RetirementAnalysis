@@ -12,9 +12,10 @@ from catboost import CatBoostClassifier
 import shap
 
 # Подготовка данных
-data_train = merge('train_data/cntrbtrs_clnts_ops_trn.csv', 'train_data/trnsctns_ops_trn.csv', 'data/merged_train.csv')
+# data_train = merge('train_data/cntrbtrs_clnts_ops_trn.csv', 'train_data/trnsctns_ops_trn.csv', 'data/merged_train.csv')
+data_train = pd.read_csv('train_data/clearData.csv', sep=';', encoding=encoding)
 
-data_train = clear(data_train)
+# data_train = clear(data_train)
 
 data_train = preprocess(data_train)[1]
 
