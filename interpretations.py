@@ -17,7 +17,7 @@ coef_df = coef_df.sort_values(by='Coefficient', ascending=False)
 
 
 plt.figure(figsize=(10, 6))
-sns.barplot(x='Coefficient', y='Feature', data=coef_df)
+sns.barplot(x='Coefficient', y='Feature', data=coef_df[:10])
 plt.title('Logistic Regression Coefficients')
 plt.xlabel('Coefficient Value')
 plt.ylabel('Features')
