@@ -1,28 +1,17 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 import os
 from inference import inference  # Импортируем функцию inference
 
 app = FastAPI()
 
+# Подключение статики
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 @app.get("/")
 async def main():
-    html_content = """
-    <html>
-        <head>
-            <title>Upload Files for Prediction</title>
-        </head>
-        <body>
-            <h1>Upload Files for Prediction</h1>
-            <form action="/predict/" enctype="multipart/form-data" method="post">
-                <input name="file1" type="file" required>
-                <input name="file2" type="file" required>
-                <button type="submit">Predict</button>
-            </form>
-        </body>
-    </html>
-    """
-    return HTMLResponse(content=html_content)
+    return HTMLResponse(open("templates/index.html").read())
 
 @app.post("/predict/")
 async def make_prediction(file1: UploadFile = File(...), file2: UploadFile = File(...)):
