@@ -14,13 +14,17 @@ fonttools==4.54.1
 graphviz==0.20.3
 h11==0.14.0
 idna==3.10
+imageio==2.36.0
 ipython==8.29.0
 jedi==0.19.1
 joblib==1.4.2
 kiwisolver==1.4.7
+lazy_loader==0.4
+lime==0.2.0.1
 llvmlite==0.43.0
 matplotlib==3.9.2
 matplotlib-inline==0.1.7
+networkx==3.4.2
 numba==0.60.0
 numpy==1.26.4
 packaging==24.1
@@ -37,6 +41,7 @@ pyparsing==3.2.0
 python-dateutil==2.9.0.post0
 python-multipart==0.0.12
 pytz==2024.2
+scikit-image==0.24.0
 scikit-learn==1.5.2
 scipy==1.14.1
 seaborn==0.13.2
@@ -48,6 +53,7 @@ stack-data==0.6.3
 starlette==0.41.0
 tenacity==9.0.0
 threadpoolctl==3.5.0
+tifffile==2024.9.20
 tqdm==4.66.5
 traitlets==5.14.3
 typing_extensions==4.12.2
