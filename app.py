@@ -41,7 +41,7 @@ async def make_prediction(file1: UploadFile = File(...), file2: UploadFile = Fil
             f.write(await file2.read())
 
         # Выполняем инференс
-        data = merge(users_info_path, transactions_info_path, 'data/merged_train.csv')
+        data = merge(users_info_path, transactions_info_path, 'merged_train.csv')
         cleared_data = clear(data)
         data_ids, preprocessed_data = preprocess(cleared_data)
         y_pred = model.predict(preprocessed_data)
