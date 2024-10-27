@@ -14,7 +14,10 @@ from clear import *
 # Загрузка модели
 model = CatBoostClassifier()
 model.load_model('model/catboost_model.cbm')
-preprocessed_data = pd.read_csv('preprocessed.csv', encoding=encoding)
+try:
+    preprocessed_data = pd.read_csv('preprocessed.csv', encoding=encoding)
+except FileNotFoundError:
+    pass
 app = FastAPI()
 
 # Подключение статики
