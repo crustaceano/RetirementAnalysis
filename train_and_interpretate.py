@@ -12,12 +12,19 @@ from catboost import CatBoostClassifier
 import shap
 
 # Подготовка данных
+
 # data_train = merge('train_data/cntrbtrs_clnts_ops_trn.csv', 'train_data/trnsctns_ops_trn.csv', 'data/merged_train.csv')
-data_train = pd.read_csv('train_data/clearData.csv', sep=';', encoding=encoding)
-
+# # data_train = pd.read_csv('train_data/clearData.csv', sep=';', encoding=encoding)
+#
 # data_train = clear(data_train)
+#
+# data_train = preprocess(data_train)[1]
 
-data_train = preprocess(data_train)[1]
+# data_train.to_csv('train_data/preprocessed_for_train.csv', encoding=encoding, index=False)
+
+
+data_train = pd.read_csv('train_data/preprocessed_for_train.csv', encoding=encoding)
+
 
 
 X, y = data_train.drop(columns=['erly_pnsn_flg']), data_train['erly_pnsn_flg']
@@ -84,4 +91,18 @@ shap.plots.force(explainer.expected_value, shap_values[:10], X_test[:10])
 #     plt.figure(figsize=(10, 6))
 #     shap.dependence_plot(feature, shap_values, X_test)
 #     plt.title(f'SHAP Dependence Plot for {feature}')
+#     plt.show()
+
+sample_indices = np.random.choice(X_test.index, size=3, replace=False)  # Выберем 3 случайных примера для анализа
+sample_data = X_test.loc[sample_indices]
+
+# Визуализация SHAP значений для выбранных примеров
+# for i, index in enumerate(sample_indices):
+#     shap.force_plot(
+#         explainer.expected_value,
+#         shap_values[index],
+#         sample_data.loc[index],
+#         matplotlib=True
+#     )
+#     plt.title(f"SHAP Force Plot for Example {i+1}")
 #     plt.show()
