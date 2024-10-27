@@ -4,28 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Files for Prediction</title>
-    <style src="/static/style.css"></style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
-    <div class="container">
-        <h1>Upload Files for Prediction</h1>
-        <form id="upload-form" enctype="multipart/form-data">
-            <input name="file1" type="file" required>
-            <input name="file2" type="file" required>
-            <button type="submit">Predict</button>
-        </form>
-        <progress id="progress-bar" value="0" max="100" style="display: none;"></progress>
-        <p id="status" class="status"></p>
+<body class="d-flex align-items-center justify-content-center vh-100 bg-light">
 
-        <h1>Interpretation</h1>
-        <form id="interpret-form">
-            <input type="number" id="sample-index" name="sample-index" placeholder="Enter sample index" required min="0">
-            <button type="submit">Interpret</button>
+    <div class="container bg-white shadow p-5 rounded text-center" style="max-width: 500px;">
+        <h2 class="display-4 text-success font-weight-bold mb-3">RETI</h2>
+        <p class="lead text-muted">Upload files for prediction and view interpretation results</p>
+
+        <h3 class="h5 mt-4">Upload Files for Prediction</h3>
+        <form id="upload-form" enctype="multipart/form-data" class="mt-3">
+            <div class="form-group">
+                <input name="file1" type="file" class="form-control-file" required>
+            </div>
+            <div class="form-group">
+                <input name="file2" type="file" class="form-control-file" required>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Predict</button>
         </form>
-        <div class="interpretation" id="interpretation-result"></div>
-        <p id="interpret-status" class="status"></p>
+
+        <progress id="progress-bar" value="0" max="100" class="w-100 my-3" style="display: none;"></progress>
+        <p id="status" class="status text-muted"></p>
+
+        <h3 class="h5 mt-5">Interpretation</h3>
+        <form id="interpret-form" class="mt-3">
+            <div class="form-group">
+                <input type="number" id="sample-index" name="sample-index" class="form-control" placeholder="Enter sample index" required min="0">
+            </div>
+            <button type="submit" class="btn btn-info btn-block">Interpret</button>
+        </form>
+
+        <div class="interpretation mt-4" id="interpretation-result"></div>
+        <p id="interpret-status" class="status text-muted"></p>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/static/script.js"></script>
 </body>
 </html>
